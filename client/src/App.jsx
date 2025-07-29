@@ -1,19 +1,22 @@
-import { useTranslation } from "react-i18next";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ForgotPasswordStep1 from "./pages/ForgotPasswordStep1";
+import ForgotPasswordStep2 from "./pages/ForgotPasswordStep2";
+import { useState } from "react";
 
 export default function App() {
-  const { t, i18n } = useTranslation();
+  const [step, setStep] = useState("login");
+  const [resetState, setResetState] = useState({});
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-900">
-      <h1 className="text-3xl font-bold mb-4">{t("welcome")}</h1>
-      <select
-        onChange={(e) => i18n.changeLanguage(e.target.value)}
-        className="px-4 py-2 border rounded-md"
-      >
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="or">ଓଡ଼ିଆ</option>
-      </select>
-    </div>
+  if (step === "signup") return <Signup />;
+  if (step === "login") return <Login />;
+  if (step === "forgot1") return (
+    <ForgotPasswordStep1 onContinue={(mobile, questions) => {
+      setResetState({ mobile, questions });
+      setStep("forgot2");
+    }} />
   );
+  if (step === "forgot2") return <ForgotPasswordStep2 {...resetState} />;
+
+  return null;
 }

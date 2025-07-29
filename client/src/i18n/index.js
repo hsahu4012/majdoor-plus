@@ -6,6 +6,7 @@ import en from "./en.json";
 import hi from "./hi.json";
 import or from "./or.json";
 
+
 i18n
     .use(LanguageDetector)
     .use(initReactI18next)
